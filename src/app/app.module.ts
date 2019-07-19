@@ -6,6 +6,7 @@ import { RouterModule, PreloadAllModules } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { CustomPreloader } from './custom-preloader';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -22,7 +23,10 @@ import { HomeComponent } from './home/home.component';
         {
           path: 'nyan',
           loadChildren: () =>
-            import('./nyan/nyan.module').then(m => m.NyanModule)
+            import('./nyan/nyan.module').then(m => m.NyanModule),
+          data: {
+            preload: true
+          }
         },
         {
           path: 'about',
@@ -31,7 +35,7 @@ import { HomeComponent } from './home/home.component';
         }
       ],
       {
-        preloadingStrategy: PreloadAllModules
+        preloadingStrategy: CustomPreloader //PreloadAllModules
       }
     )
   ],
