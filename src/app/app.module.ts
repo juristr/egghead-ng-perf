@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, PreloadAllModules } from '@angular/router';
+import { QuicklinkStrategy, QuicklinkModule } from 'ngx-quicklink';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +15,7 @@ import { CustomPreloader } from './custom-preloader';
     BrowserModule,
     MatSidenavModule,
     BrowserAnimationsModule,
+    QuicklinkModule,
     RouterModule.forRoot(
       [
         {
@@ -23,10 +25,7 @@ import { CustomPreloader } from './custom-preloader';
         {
           path: 'nyan',
           loadChildren: () =>
-            import('./nyan/nyan.module').then(m => m.NyanModule),
-          data: {
-            preload: true
-          }
+            import('./nyan/nyan.module').then(m => m.NyanModule)
         },
         {
           path: 'about',
@@ -35,7 +34,7 @@ import { CustomPreloader } from './custom-preloader';
         }
       ],
       {
-        preloadingStrategy: CustomPreloader //PreloadAllModules
+        preloadingStrategy: QuicklinkStrategy //PreloadAllModules
       }
     )
   ],
