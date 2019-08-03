@@ -8,13 +8,6 @@ import {
 
 import { EmployeeData } from './../tree-generator.service';
 
-const fibonacci = (num: number): number => {
-  if (num === 1 || num === 2) {
-    return 1;
-  }
-  return fibonacci(num - 1) + fibonacci(num - 2);
-};
-
 @Component({
   selector: 'app-employee-list',
   template: `
@@ -38,7 +31,7 @@ const fibonacci = (num: number): number => {
         </h3>
         <mat-chip-list>
           <div class="chip">
-            {{ calculate(item.num) }}
+            {{ item.num | calculate }}
           </div>
         </mat-chip-list>
         <i
@@ -70,7 +63,7 @@ export class EmployeeListComponent {
     }
   }
 
-  calculate(num: number) {
-    return fibonacci(num);
-  }
+  // calculate(num: number) {
+  //   return fibonacci(num);
+  // }
 }
