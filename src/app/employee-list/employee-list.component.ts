@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 import { EmployeeData } from './../tree-generator.service';
 
@@ -15,7 +21,13 @@ const fibonacci = (num: number): number => {
     <h1 title="Department">{{ department }}</h1>
 
     <mat-form-field>
-      <input placeholder="Enter name here" matInput type="text" [(ngModel)]="label" (keydown)="handleKey($event)">
+      <input
+        placeholder="Enter name here"
+        matInput
+        type="text"
+        [(ngModel)]="label"
+        (keydown)="handleKey($event)"
+      />
     </mat-form-field>
 
     <mat-list>
@@ -29,12 +41,18 @@ const fibonacci = (num: number): number => {
             {{ calculate(item.num) }}
           </div>
         </mat-chip-list>
-        <i title="Delete" class="fa fa-trash-o" aria-hidden="true" (click)="remove.emit(item)"></i>
+        <i
+          title="Delete"
+          class="fa fa-trash-o"
+          aria-hidden="true"
+          (click)="remove.emit(item)"
+        ></i>
       </mat-list-item>
       <mat-divider *ngIf="data.length !== 0"></mat-divider>
     </mat-list>
   `,
-  styleUrls: ['employee-list.component.css']
+  styleUrls: ['employee-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmployeeListComponent {
   @Input() data: EmployeeData[];
