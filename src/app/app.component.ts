@@ -1,37 +1,45 @@
-import { Component, ElementRef } from '@angular/core';
-import {
-  Router,
-  RouteConfigLoadStart,
-  RouteConfigLoadEnd,
-  RouterEvent
-} from '@angular/router';
-import { fromEvent } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { ListGenerator, EmployeeData } from './tree-generator.service';
+import { Component, OnInit } from '@angular/core';
+import { Names } from './names';
+
+const NumRange: [number, number] = [23, 28];
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+    <app-employee-list
+      [data]="salesList"
+      department="Sales"
+      (add)="add(salesList, $event)"
+      (remove)="remove(salesList, $event)"
+    ></app-employee-list>
+
+    <app-employee-list
+      [data]="rndList"
+      department="R&D"
+      (add)="add(rndList, $event)"
+      (remove)="remove(rndList, $event)"
+    ></app-employee-list>
+  `,
+  styleUrls: ['app.component.css']
 })
-export class AppComponent {
-  loading: boolean;
+export class AppComponent implements OnInit {
+  salesList: EmployeeData[];
+  rndList: EmployeeData[];
+  label: string;
 
-  constructor(router: Router, private el: ElementRef) {
-    this.loading = false;
+  constructor(private generator: ListGenerator) {}
 
-    router.events.subscribe(
-      (event: RouterEvent): void => {
-        if (event instanceof RouteConfigLoadStart) {
-          this.loading = true;
-        } else if (event instanceof RouteConfigLoadEnd) {
-          this.loading = false;
-        }
-      }
-    );
+  ngOnInit() {
+    this.salesList = this.generator.generate(Names, NumRange, 100);
+    this.rndList = this.generator.generate(Names, NumRange, 100);
   }
 
-  scroll$ = fromEvent(this.el.nativeElement, 'scroll').pipe(
-    map((e: MouseEvent) => e.timeStamp),
-    tap(_ => console.log('scrolling'))
-  );
+  add(list: EmployeeData[], name: string) {
+    list.unshift({ label: name, num: this.generator.generateNumber(NumRange) });
+  }
+
+  remove(list: EmployeeData[], node: EmployeeData) {
+    list.splice(list.indexOf(node), 1);
+  }
 }

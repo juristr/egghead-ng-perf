@@ -1,44 +1,16 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, PreloadAllModules } from '@angular/router';
-import { QuicklinkStrategy, QuicklinkModule } from 'ngx-quicklink';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { CustomPreloader } from './custom-preloader';
+
+import { EmployeeListModule } from './employee-list/employee-list.module';
+import { ListGenerator } from './tree-generator.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
-  imports: [
-    BrowserModule,
-    MatSidenavModule,
-    BrowserAnimationsModule,
-    QuicklinkModule,
-    RouterModule.forRoot(
-      [
-        {
-          path: '',
-          component: HomeComponent
-        },
-        {
-          path: 'nyan',
-          loadChildren: () =>
-            import('./nyan/nyan.module').then(m => m.NyanModule)
-        },
-        {
-          path: 'about',
-          loadChildren: () =>
-            import('./about/about.module').then(m => m.AboutModule)
-        }
-      ],
-      {
-        preloadingStrategy: QuicklinkStrategy //PreloadAllModules
-      }
-    )
-  ],
-  providers: [],
+  imports: [BrowserModule, EmployeeListModule, BrowserAnimationsModule],
+  providers: [ListGenerator],
+  declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
