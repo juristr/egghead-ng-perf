@@ -8,6 +8,8 @@ import { QuicklinkStrategy, QuicklinkModule } from 'ngx-quicklink';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CustomPreloader } from './custom-preloader';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -36,7 +38,8 @@ import { CustomPreloader } from './custom-preloader';
       {
         preloadingStrategy: QuicklinkStrategy //PreloadAllModules
       }
-    )
+    ),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
